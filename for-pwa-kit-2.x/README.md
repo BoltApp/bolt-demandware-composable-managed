@@ -44,26 +44,22 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
                 "storage.googleapis.com",
                 "*.bolt.com",
                 "*.bugsnag.com",
-                "*.ning-external.dev.bolt.me",
               ],
               "connect-src": [
                 "'self'",
                 "api.cquotient.com",
                 "*.bolt.com",
                 "*.bugsnag.com",
-                "*.ning-external.dev.bolt.me",
               ],
               "frame-src": [
                 "'self'",
                 "*.bolt.com",
                 "*.bugsnag.com",
-                "*.ning-external.dev.bolt.me",
               ],
               "object-src": [
                 "'self'",
                 "*.bolt.com",
                 "*.bugsnag.com",
-                "*.ning-external.dev.bolt.me",
               ],
               // Do not upgrade insecure requests for local development
               "upgrade-insecure-requests": isRemote() ? [] : null,
@@ -266,4 +262,54 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
         ></script>
       </div>
     </div>
+    ```
+    
+    Also you need to add `"*.yourname-external.dev.bolt.me",` to HTTP security headers in the file `bolt_pwa_kit/app/ssr.js`, eg.
+    
+    ```javascript
+      app.use(
+        helmet({
+          contentSecurityPolicy: {
+            useDefaults: true,
+            directives: {
+              "img-src": [
+                "'self'",
+                "*.commercecloud.salesforce.com",
+                "*.bolt.com",
+                "data:",
+              ],
+              "script-src": [
+                "'self'",
+                "'unsafe-eval'",
+                "storage.googleapis.com",
+                "*.bolt.com",
+                "*.bugsnag.com",
+                "*.ning-external.dev.bolt.me",
+              ],
+              "connect-src": [
+                "'self'",
+                "api.cquotient.com",
+                "*.bolt.com",
+                "*.bugsnag.com",
+                "*.ning-external.dev.bolt.me",
+              ],
+              "frame-src": [
+                "'self'",
+                "*.bolt.com",
+                "*.bugsnag.com",
+                "*.ning-external.dev.bolt.me",
+              ],
+              "object-src": [
+                "'self'",
+                "*.bolt.com",
+                "*.bugsnag.com",
+                "*.ning-external.dev.bolt.me",
+              ],
+              // Do not upgrade insecure requests for local development
+              "upgrade-insecure-requests": isRemote() ? [] : null,
+            },
+          },
+          hsts: isRemote(),
+        })
+      );
     ```
