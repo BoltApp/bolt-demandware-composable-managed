@@ -8,15 +8,15 @@ class ControllerBolt {
   }
 
   async getCartSession() {
-    return await this.fetch("Bolt-GetCartSessionPwa", "GET");
+    return await this.fetch("Bolt-GetCartSession", "GET");
   }
 
   async getBoltConfig() {
-    return await this.fetch("Bolt-GetBoltConfigPwa", "GET", "force-cache");
+    return await this.fetch("Bolt-GetBoltConfig", "GET", "force-cache");
   }
 
   async getDefaultShipmethod() {
-    return await this.fetch("Bolt-GetDefaultShipPwa", "GET");
+    return await this.fetch("Bolt-GetDefaultShip", "GET");
   }
 }
 
