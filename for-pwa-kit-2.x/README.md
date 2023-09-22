@@ -25,7 +25,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 
 6. Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/configuration-options.html) to complete the configuration files
 
-7. Update SSR config, locate the file bolt_pwa_kit/app/ssr.js and set HTTP security headers
+7. Update SSR config, locate the file `bolt_pwa_kit/app/ssr.js` and set HTTP security headers
     ```javascript
       app.use(
         helmet({
