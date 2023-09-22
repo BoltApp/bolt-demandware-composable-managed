@@ -9,9 +9,9 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 
 1. Find the latest version of v2.7.x from https://github.com/SalesforceCommerceCloud/pwa-kit/releases
 
-2. Download the template-retail-react-app (eg. https://github.com/SalesforceCommerceCloud/pwa-kit/tree/v2.7.4/packages/template-retail-react-app) to your local and rename it (eg. bolt_pwa_kit), head to bolt_pwa_kit/app/components and create a new folder "bolt" 
+2. Download the template-retail-react-app (eg. https://github.com/SalesforceCommerceCloud/pwa-kit/tree/v2.7.4/packages/template-retail-react-app) to your local and rename it (eg. bolt_pwa_kit) 
 
-3. Clone this repository to your local, and copy all the files to the new folder "bolt" just created in the previous step
+3. Clone this repository to your local, and copy the folder `for-pwa-kit-2.x/bolt` to `bolt_pwa_kit/app/components`
 
 4. Update the properties of `engines` in the bolt_pwa_kit/package.json 
     ```sh
@@ -25,7 +25,62 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 
 6. Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/configuration-options.html) to complete the configuration files
 
-7. Enable the Bolt checkout button on the cart page:
+7. Update SSR config, locate the file bolt_pwa_kit/app/ssr.js and set HTTP security headers
+    ```javascript
+      app.use(
+        helmet({
+          contentSecurityPolicy: {
+            useDefaults: true,
+            directives: {
+              "img-src": [
+                "'self'",
+                "*.commercecloud.salesforce.com",
+                "*.bolt.com",
+                "data:",
+              ],
+              "script-src": [
+                "'self'",
+                "'unsafe-eval'",
+                "storage.googleapis.com",
+                "*.bolt.com",
+                "*.bugsnag.com",
+                "*.ning-external.dev.bolt.me",
+              ],
+              "connect-src": [
+                "'self'",
+                "api.cquotient.com",
+                "*.bolt.com",
+                "*.bugsnag.com",
+                "*.ning-external.dev.bolt.me",
+              ],
+              "frame-src": [
+                "'self'",
+                "*.bolt.com",
+                "*.bugsnag.com",
+                "*.ning-external.dev.bolt.me",
+              ],
+              "object-src": [
+                "'self'",
+                "*.bolt.com",
+                "*.bugsnag.com",
+                "*.ning-external.dev.bolt.me",
+              ],
+              // Do not upgrade insecure requests for local development
+              "upgrade-insecure-requests": isRemote() ? [] : null,
+            },
+          },
+          hsts: isRemote(),
+        })
+      );
+    ```
+    
+8. Install packages with dependencies
+    ```sh
+    npm install
+    npm ci
+    ```
+
+9. Enable the Bolt checkout button on the cart page:
 
     - For the desktop mode, locate the file bolt_pwa_kit/app/pages/cart/index.jsx
         - Import Bolt component 
@@ -94,7 +149,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
                 </Flex>
             </Fragment>
             ```
-8. Enable the Bolt checkout button on the add-to-cart model of product page:  
+10. Enable the Bolt checkout button on the add-to-cart model of product page:  
     - Locate the file bolt_pwa_kit/app/hooks/use-add-to-cart-modal.js     
         - Import Bolt component 
             ```sh
@@ -175,7 +230,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
                 <BoltCheckoutPDP pos="mobile" />
             </Stack>
             ```
-9. To start your web server for local development, just update the html content of Bolt checkout button
+11. To start your web server for local development, just update the html content of Bolt checkout button
     from
     ```html
     <div>
