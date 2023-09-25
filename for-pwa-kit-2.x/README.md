@@ -105,7 +105,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
     - For the mobile mode, locate the file bolt_pwa_kit/app/pages/cart/partials/cart-cta.jsx
         - Import Bolt component 
             ```sh
-            import {BoltCheckout} from '../../components/bolt'
+            import {BoltCheckout} from '../../../components/bolt'
             ```
         - Replace original checkout button with the Bolt checkout button
             from 
