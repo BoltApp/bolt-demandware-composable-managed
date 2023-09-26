@@ -483,13 +483,7 @@
 
   <type-extension type-id="SitePreferences">
     <custom-attribute-definitions>
-      <attribute-definition attribute-id="boltAPI">
-        <display-name xml:lang="x-default">Bolt API URL</display-name>
-        <type>string</type>
-        <mandatory-flag>false</mandatory-flag>
-        <externally-managed-flag>false</externally-managed-flag>
-        <min-length>0</min-length>
-      </attribute-definition>
+
       <attribute-definition attribute-id="boltAPIKey">
         <display-name xml:lang="x-default">API Key</display-name>
         <type>password</type>
@@ -504,29 +498,8 @@
         <externally-managed-flag>false</externally-managed-flag>
         <default-value>false</default-value>
       </attribute-definition>
-      <attribute-definition attribute-id="boltEnableSSO">
-        <display-name xml:lang="x-default">Enable Bolt SSO</display-name>
-        <type>boolean</type>
-        <mandatory-flag>false</mandatory-flag>
-        <externally-managed-flag>false</externally-managed-flag>
-        <default-value>false</default-value>
-      </attribute-definition>
-      <attribute-definition attribute-id="boltEnableBackOffice">
-        <display-name xml:lang="x-default">Display Bolt Checkout for Back Office payments</display-name>
-        <type>boolean</type>
-        <mandatory-flag>false</mandatory-flag>
-        <externally-managed-flag>false</externally-managed-flag>
-        <default-value>false</default-value>
-      </attribute-definition>
       <attribute-definition attribute-id="boltEnableCartPage">
         <display-name xml:lang="x-default">Display Bolt Checkout on the Cart Page</display-name>
-        <type>boolean</type>
-        <mandatory-flag>false</mandatory-flag>
-        <externally-managed-flag>false</externally-managed-flag>
-        <default-value>false</default-value>
-      </attribute-definition>
-      <attribute-definition attribute-id="boltEnablePPC">
-        <display-name xml:lang="x-default">Enable Product Page Checkout</display-name>
         <type>boolean</type>
         <mandatory-flag>false</mandatory-flag>
         <externally-managed-flag>false</externally-managed-flag>
@@ -658,27 +631,6 @@
       <attribute-group group-id="Features">
         <display-name xml:lang="x-default">Features</display-name>
         <attribute attribute-id="shipToStoreEnabled"/>
-      </attribute-group>
-    </group-definitions>
-  </type-extension>
-
-  <type-extension type-id="Product">
-    <custom-attribute-definitions>
-      <attribute-definition attribute-id="hideBoltButtonPDP">
-        <display-name xml:lang="x-default">Hide Bolt Button PDP</display-name>
-        <type>boolean</type>
-        <site-specific-flag>false</site-specific-flag>
-        <mandatory-flag>false</mandatory-flag>
-        <visible-flag>false</visible-flag>
-        <externally-managed-flag>false</externally-managed-flag>
-        <order-required-flag>false</order-required-flag>
-        <externally-defined-flag>false</externally-defined-flag>
-      </attribute-definition>
-    </custom-attribute-definitions>
-    <group-definitions>
-      <attribute-group group-id="bolt">
-        <display-name xml:lang="x-default">bolt</display-name>
-        <attribute attribute-id="hideBoltButtonPDP"/>
       </attribute-group>
     </group-definitions>
   </type-extension>
