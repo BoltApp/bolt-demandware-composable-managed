@@ -344,5 +344,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
     - You must belong to a partner or customer Organization in the Runtime Admin tool
 
     (1) [Log in to the Managed Runtime](https://quip.com/xul7AKPoTyHv#temp:C:IRb65d6439c23754dfa8262c102f)
+
     (2) [Create An Environment in Managed Runtime](https://quip.com/xul7AKPoTyHv#temp:C:IRbe60f236bbb7944528d83eb095)
+    
     (3) [Push and Deploy a Bundle](https://quip.com/xul7AKPoTyHv)
