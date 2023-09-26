@@ -2,9 +2,6 @@
 
 var server = require("server");
 
-/* API Includes */
-var BasketMgr = require("dw/order/BasketMgr");
-
 /* Script Modules */
 var BoltPreferences = require("~/cartridge/scripts/services/utils/preferences");
 
@@ -20,7 +17,7 @@ server.get("GetBoltConfig", server.middleware.https, function (req, res, next) {
 });
 
 server.get(
-  "GetDefaultShip",
+  "GetDefaultShippingMethod",
   server.middleware.https,
   function (req, res, next) {
     var ShippingMgr = require("dw/order/ShippingMgr");
