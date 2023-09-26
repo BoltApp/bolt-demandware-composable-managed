@@ -21,11 +21,36 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
      },
     ```
 
-5. Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/setting-up-api-access.html) to set up API access
+5. Set Up API Access
+    (1) Follow [this guide](https://developer.salesforce.com/docs/commerce/commerce-api/guide/authorization-for-shopper-apis.html#set-up-user-roles-and-filters) to Set Up User Roles and Filters
+    (2) Follow [this guide](https://developer.salesforce.com/docs/commerce/commerce-api/guide/authorization-for-shopper-apis.html#create-a-slas-client) to Create a SLAS Client and get the `client id`, additionally change the `Scopes` of client to 
+    ```sh
+    sfcc.shopper-myaccount.baskets sfcc.shopper-discovery-search sfcc.shopper-myaccount.addresses sfcc.shopper-products sfcc.shopper-myaccount.rw sfcc.shopper-myaccount.paymentinstruments sfcc.custom_objects sfcc.shopper-customers.login sfcc.shopper-myaccount.orders sfcc.shopper-baskets-orders sfcc.shopper-customers.register sfcc.shopper-productlists sfcc.shopper-myaccount.addresses.rw sfcc.shopper-myaccount.productlists.rw sfcc.shopper-promotions sfcc.session_bridge sfcc.shopper-baskets-orders.rw sfcc.shopper-myaccount.paymentinstruments.rw sfcc.shopper-gift-certificates sfcc.shopper-custom_objects sfcc.shopper-product-search sfcc.shopper-myaccount.productlists sfcc.shopper-categories sfcc.shopper-myaccount
+    ```
+    (3) Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/setting-up-api-access.html#update-open-commerce-api-settings) to Update Open Commerce API Settings
 
-6. Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/configuration-options.html) to complete the configuration files
+6. Complete the configuration files
+    When a PWA Kit project is created with the Retail React App template, it comes with a single configuration file: `app/config/default.js`. The configuration objects that it exports are set based on the options provided to pwa-kit-create-app, but you can update your configuration at any time. Updates are often necessary after the initial project generation to stay in sync with changes to B2C Commerce instances.
 
-7. Update SSR config, locate the file `bolt_pwa_kit/app/ssr.js` and set HTTP security headers
+    (1) Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/configuration-options.html#api-access) to config API Access
+    (2) Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/proxying-requests.html#configure-the-local-development-environment) to configure proxies for local development env. and below is an example:
+    ```javascript
+    // Additional parameters that configure Express app behavior.
+    ssrParameters: {
+        ssrFunctionNodeVersion: "18.x",
+        proxyConfigs: [
+          {
+            host: "kv7kzm78.api.commercecloud.salesforce.com",
+            path: "api",
+          },
+          {
+            host: "zzgv-022.dx.commercecloud.salesforce.com",
+            path: "ocapi",
+          },
+        ],
+    },
+    ```
+    (3) Update SSR config, locate the file `bolt_pwa_kit/app/ssr.js` and set HTTP security headers
     ```javascript
       app.use(
         helmet({
@@ -70,13 +95,13 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
       );
     ```
     
-8. Install packages with dependencies
+7. Install packages with dependencies
     ```sh
     npm install
     npm ci
     ```
 
-9. Enable the Bolt checkout button on the cart page:
+8. Enable the Bolt checkout button on the cart page:
 
     - For the desktop mode, locate the file bolt_pwa_kit/app/pages/cart/index.jsx
         - Import Bolt component 
@@ -145,7 +170,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
                 </Flex>
             </Fragment>
             ```
-10. Enable the Bolt checkout button on the add-to-cart model of product page:  
+9. Enable the Bolt checkout button on the add-to-cart model of product page:  
     - Locate the file bolt_pwa_kit/app/hooks/use-add-to-cart-modal.js     
         - Import Bolt component 
             ```sh
@@ -226,7 +251,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
                 <BoltCheckoutPDP pos="mobile" />
             </Stack>
             ```
-11. To start your web server for local development, just update the html content of Bolt checkout button
+10. To start your web server for local development, just update the html content of Bolt checkout button
     from
     ```html
     <div>
@@ -313,3 +338,11 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
         })
       );
     ```
+11. To use Managed Runtime to deploy and monitor your PWA Kit storefront
+    Prerequisites
+    - You must have the Managed Runtime User role in Account Manager
+    - You must belong to a partner or customer Organization in the Runtime Admin tool
+
+    (1) [Log in to the Managed Runtime](https://quip.com/xul7AKPoTyHv#temp:C:IRb65d6439c23754dfa8262c102f)
+    (2) [Create An Environment in Managed Runtime](https://quip.com/xul7AKPoTyHv#temp:C:IRbe60f236bbb7944528d83eb095)
+    (3) [Push and Deploy a Bundle](https://quip.com/xul7AKPoTyHv)
