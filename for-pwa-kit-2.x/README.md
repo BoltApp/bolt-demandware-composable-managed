@@ -14,6 +14,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 3. Clone this repository to your local, and copy the folder `for-pwa-kit-2.x/bolt` to `bolt_pwa_kit/app/components`
 
 4. Update the properties of `engines` in the bolt_pwa_kit/package.json 
+
     ```sh
     "engines": {
         "node": "^18.0.0",
@@ -22,8 +23,9 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
     ```
 
 5. Set Up API Access
+
     (1) Follow [this guide](https://developer.salesforce.com/docs/commerce/commerce-api/guide/authorization-for-shopper-apis.html#set-up-user-roles-and-filters) to Set Up User Roles and Filters
-    
+
     (2) Follow [this guide](https://developer.salesforce.com/docs/commerce/commerce-api/guide/authorization-for-shopper-apis.html#create-a-slas-client) to Create a SLAS Client and get the `client id`, additionally change the `Scopes` of client to 
 
     ```sh
@@ -33,6 +35,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
     (3) Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/setting-up-api-access.html#update-open-commerce-api-settings) to Update Open Commerce API Settings
 
 6. Complete the configuration files
+
     When a PWA Kit project is created with the Retail React App template, it comes with a single configuration file: `app/config/default.js`. The configuration objects that it exports are set based on the options provided to pwa-kit-create-app, but you can update your configuration at any time. Updates are often necessary after the initial project generation to stay in sync with changes to B2C Commerce instances.
 
     (1) Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/configuration-options.html#api-access) to config API Access
@@ -103,6 +106,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
     ```
     
 7. Install packages with dependencies
+
     ```sh
     npm install
     npm ci
@@ -179,6 +183,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
             ```
 
 9. Enable the Bolt checkout button on the add-to-cart model of product page:  
+
     - Locate the file bolt_pwa_kit/app/hooks/use-add-to-cart-modal.js     
         - Import Bolt component 
             ```sh
@@ -260,7 +265,9 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
             </Stack>
             ```
 10. To start your web server for local development, just update the html content of Bolt checkout button
+
     from
+
     ```html
     <div>
       <div
@@ -279,7 +286,9 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
       </div>
     </div>
     ```
+
     to
+
     ```html
     <div>
       <div
@@ -346,7 +355,9 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
         })
       );
     ```
+
 11. To use Managed Runtime to deploy and monitor your PWA Kit storefront
+
     Prerequisites
     - You must have the Managed Runtime User role in Account Manager
     - You must belong to a partner or customer Organization in the Runtime Admin tool
