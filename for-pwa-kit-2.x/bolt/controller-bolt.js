@@ -12,7 +12,7 @@ class ControllerBolt {
   }
 
   async getDefaultShipmethod() {
-    return await this.fetch("Bolt-GetDefaultShip", "GET");
+    return await this.fetch("Bolt-GetDefaultShippingMethod", "GET");
   }
 }
 
