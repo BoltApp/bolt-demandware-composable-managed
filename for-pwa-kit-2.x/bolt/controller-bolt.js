@@ -7,10 +7,6 @@ class ControllerBolt {
     this.fetch = createControllerFetch(appConfig.commerceAPI);
   }
 
-  async getCartSession() {
-    return await this.fetch("Bolt-GetCartSession", "GET");
-  }
-
   async getBoltConfig() {
     return await this.fetch("Bolt-GetBoltConfig", "GET", "force-cache");
   }
