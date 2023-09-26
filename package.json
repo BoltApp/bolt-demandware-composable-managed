@@ -1,0 +1,14 @@
+{
+  "name": "bolt-demandware-pwa",
+  "description": "Bolt Cartridge",
+  "scripts": {
+    "upload:pwa": "sgmf-scripts --uploadCartridge int_bolt_pwa",
+    "zipMetadata": "if [ -f metadata/bolt-meta-import.zip ] ; then rm -r metadata/bolt-meta-import.zip && cd metadata && zip -r bolt-meta-import.zip bolt-meta-import ; else cd metadata && zip -r bolt-meta-import.zip bolt-meta-import ; fi",
+    "uploadMetadata": "npm run zipMetadata && sfcc-ci instance:upload metadata/bolt-meta-import.zip && sfcc-ci instance:import bolt-meta-import.zip -s -j",
+    "configMetadata": "METADATA_PATH=metadata\\/bolt-meta-import\\/meta\\/system-objecttype-extensions.xml;sed -i.bak \"s/MERCHANT_NAME/$npm_config_mx/g\" $METADATA_PATH; rm $METADATA_PATH.bak;"
+  },
+  "devDependencies": {
+    "sfcc-dts": "1.0.11",
+    "sgmf-scripts": "^2.4.1"
+  }
+}
