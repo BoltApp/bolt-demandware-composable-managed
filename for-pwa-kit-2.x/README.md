@@ -159,7 +159,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
             </Fragment>
             ```
 
-9. Enable the Bolt checkout button on the add-to-cart model of product page:  
+7. Enable the Bolt checkout button on the add-to-cart model of product page:  
 
     - Locate the file `your_project_path/app/hooks/use-add-to-cart-modal.js`     
         - Import Bolt component 
@@ -242,7 +242,8 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
             </Stack>
             ```
 
-10. Configure backend site setting in Business Manager:
+8. Configure backend site setting in Business Manager:
+
     (1) Go to  Administration > Site Development > Import & Export, upload file `metadata/bolt-meta-import/meta/system-objecttype-extensions.xml` and import it.
 
     (2) Go to Merchant Tools > Ordering > Payment Processors, create a new Processor with ID `BOLT_PAY`.
@@ -251,7 +252,8 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 
     (4) Go to Merchant Tools > Site Preferences > Custom Site Preference Groups, Click into group <Bolt Payment Setting - Managed Checkout> and add/update the bolt related configurations.
 
-11. Configure OCAPI:
+9. Configure OCAPI:
+
     (1) Navigate to Administration > Site Development > Open Commerce API Settings.
     (2) Navigate to `metadata/ocapi` folder.
     (3) Copy the contents of `OCAPIshop.json` within Shop Type > Open Commerce API Settings.
@@ -262,6 +264,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
     (8) Replace `<<client_id>>` with your client_id.
     (9) Click `Save`.
 
-12. Add SFRA cartridge to your code base:
+10. Add SFRA cartridge to your code base:
+
     (1) Add cartridge `cartridges/int_bolt_pwa` to your project and upload it to the SFCC instance. 
     (2) In SFCC Business Manager, Go to Administration > Sites > Manage Sites, select the site, click on `Setting` Tab, add `int_bolt_pwa` at the beginning of the site path field with separator `:`.
