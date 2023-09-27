@@ -7,58 +7,33 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 
 ## Get Started
 
-1. Find the latest version of v3.1.x from https://github.com/SalesforceCommerceCloud/pwa-kit/releases
+1. Clone this repository to your local, and copy the folder `for-pwa-kit-3.x/bolt` to `your_project_path/app/components`
 
-2. Download the template-retail-react-app (eg. https://github.com/SalesforceCommerceCloud/pwa-kit/tree/v3.1.0/packages/template-retail-react-app) to your local and rename it (eg. bolt_pwa_kit)
-
-3. Clone this repository to your local, and copy the folder `for-pwa-kit-3.x/bolt` to `bolt_pwa_kit/app/components`
-
-4. Update the properties of `engines` in the bolt_pwa_kit/package.json 
-    ```html
+2. Make sure the properties of `engines` in the `your_project_path/package.json` use correct node version
+    ```sh
     "engines": {
         "node": "^18.0.0",
         "npm": "^9.0.0"
      },
     ```
 
-5. Set Up API Access
+3. Set Up API Access
 
-    (1) Follow [this guide](https://developer.salesforce.com/docs/commerce/commerce-api/guide/authorization-for-shopper-apis.html#set-up-user-roles-and-filters) to Set Up User Roles and Filters
-    
-    (2) Follow [this guide](https://developer.salesforce.com/docs/commerce/commerce-api/guide/authorization-for-shopper-apis.html#create-a-slas-client) to Create a SLAS Client and get the `client id`, additionally change the `Scopes` of client to 
+    (1) Make sure your SLAS Client have the following settings in the `Scopes` field 
 
     ```sh
     sfcc.shopper-myaccount.baskets sfcc.shopper-discovery-search sfcc.shopper-myaccount.addresses sfcc.shopper-products sfcc.shopper-myaccount.rw sfcc.shopper-myaccount.paymentinstruments sfcc.custom_objects sfcc.shopper-customers.login sfcc.shopper-myaccount.orders sfcc.shopper-baskets-orders sfcc.shopper-customers.register sfcc.shopper-productlists sfcc.shopper-myaccount.addresses.rw sfcc.shopper-myaccount.productlists.rw sfcc.shopper-promotions sfcc.session_bridge sfcc.shopper-baskets-orders.rw sfcc.shopper-myaccount.paymentinstruments.rw sfcc.shopper-gift-certificates sfcc.shopper-custom_objects sfcc.shopper-product-search sfcc.shopper-myaccount.productlists sfcc.shopper-categories sfcc.shopper-myaccount
     ```
     
-    (3) Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/setting-up-api-access.html#update-open-commerce-api-settings) to Update Open Commerce API Settings
+    (2) Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/setting-up-api-access.html#update-open-commerce-api-settings) to Update Open Commerce API Settings
 
-6. Complete the configuration files
+4. Complete the configuration files
 
     When a PWA Kit project is created with the Retail React App template, it comes with a single configuration file: `app/config/default.js`. The configuration objects that it exports are set based on the options provided to pwa-kit-create-app, but you can update your configuration at any time. Updates are often necessary after the initial project generation to stay in sync with changes to B2C Commerce instances.
 
     (1) Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/configuration-options.html#api-access) to config API Access
 
-    (2) Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/proxying-requests.html#configure-the-local-development-environment) to configure proxies for local development env. and below is an example:
-
-    ```javascript
-    // Additional parameters that configure Express app behavior.
-    ssrParameters: {
-        ssrFunctionNodeVersion: "18.x",
-        proxyConfigs: [
-          {
-            host: "kv7kzm78.api.commercecloud.salesforce.com",
-            path: "api",
-          },
-          {
-            host: "zzgv-022.dx.commercecloud.salesforce.com",
-            path: "ocapi",
-          },
-        ],
-    },
-    ```
-
-    (3) Update SSR config, locate the file `bolt_pwa_kit/app/ssr.js` and set HTTP security headers
+    (2) Update SSR config, locate the file `your_project_path/app/ssr.js` and set HTTP security headers with bolt domain(*.bolt.com and *.bugsnag.com)
 
     ```javascript
       app.use(
@@ -104,16 +79,16 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
       );
     ```
     
-7. Install packages with dependencies
+5. Run following command:
 
     ```sh
     npm install
     npm ci
     ```
 
-8. Enable the Bolt checkout button on the cart page:
+6. Enable the Bolt checkout button on the cart page:
 
-    - For the desktop mode, locate the file bolt_pwa_kit/app/pages/cart/index.jsx
+    - For the desktop mode, locate the file `your_project_path/app/pages/cart/index.jsx`
         - Import Bolt component 
             ```sh
             import BoltCheckout from '@salesforce/retail-react-app/app/components/bolt'
@@ -149,7 +124,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
                 </Stack>
             </GridItem>
             ```
-    - For the mobile mode, locate the file bolt_pwa_kit/app/pages/cart/partials/cart-cta.jsx
+    - For the mobile mode, locate the file `your_project_path/app/pages/cart/partials/cart-cta.jsx`
         - Import Bolt component 
             ```sh
             import BoltCheckout from '@salesforce/retail-react-app/app/components/bolt'
@@ -193,9 +168,9 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
             </Fragment>
             ```
 
-9. Enable the Bolt checkout button on the add-to-cart model of product page:  
+7. Enable the Bolt checkout button on the add-to-cart model of product page:  
 
-    - Locate the file bolt_pwa_kit/app/hooks/use-add-to-cart-modal.js
+    - Locate the file `your_project_path/app/hooks/use-add-to-cart-modal.js`
         - Import Bolt component 
             ```sh
             import BoltCheckout from '@salesforce/retail-react-app/app/components/bolt'
@@ -277,95 +252,29 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
             </Stack>
             ```
 
-10. To start your web server for local development, just update the html content of Bolt checkout button
+8. Configure backend site setting in Business Manager:
 
-    from
+    (1) Go to  Administration > Site Development > Import & Export, upload file `metadata/bolt-meta-import/meta/system-objecttype-extensions.xml` and import it.
 
-    ```html
-    <div>
-      <div className="bolt-cart-button" data-cart-total="" data-tid="instant-bolt-checkout-button" ref={boltButtonRef}>
-          <object data={boltConfig.boltCdnUrl + "/v1/checkout_button?publishable_key=" + boltConfig.boltMultiPublishableKey}></object>
-      </div>
-    </div>
-    ```
+    (2) Go to Merchant Tools > Ordering > Payment Processors, create a new Processor with ID `BOLT_PAY`.
 
-    to
+    (3) Go to  Merchant Tools > Ordering > Import & Export, upload file `metadata/bolt-meta-import/sites/RefArch/payment-methods.xml` and import it.
 
-    ```html
-    <div>
-      <div
-        data-tid="instant-bolt-checkout-button"
-        className="bolt-checkout-button"
-        ref={boltButtonRef}
-      >
-        <script
-          id="bolt-connect"
-          type="text/javascript"
-          src="https://connect.yourname.dev.bolt.me"
-          data-publishable-key={boltConfig.boltMultiPublishableKey}
-        ></script>
-      </div>
-    </div>
-    ```
-    
-    Also you need to add `"*.yourname-external.dev.bolt.me",` to HTTP security headers in the file `bolt_pwa_kit/app/ssr.js`, eg.
-    
-    ```javascript
-      app.use(
-        helmet({
-          contentSecurityPolicy: {
-            useDefaults: true,
-            directives: {
-              "img-src": [
-                "'self'",
-                "*.commercecloud.salesforce.com",
-                "*.bolt.com",
-                "data:",
-              ],
-              "script-src": [
-                "'self'",
-                "'unsafe-eval'",
-                "storage.googleapis.com",
-                "*.bolt.com",
-                "*.bugsnag.com",
-                "*.ning-external.dev.bolt.me",
-              ],
-              "connect-src": [
-                "'self'",
-                "api.cquotient.com",
-                "*.bolt.com",
-                "*.bugsnag.com",
-                "*.ning-external.dev.bolt.me",
-              ],
-              "frame-src": [
-                "'self'",
-                "*.bolt.com",
-                "*.bugsnag.com",
-                "*.ning-external.dev.bolt.me",
-              ],
-              "object-src": [
-                "'self'",
-                "*.bolt.com",
-                "*.bugsnag.com",
-                "*.ning-external.dev.bolt.me",
-              ],
-              // Do not upgrade insecure requests for local development
-              "upgrade-insecure-requests": isRemote() ? [] : null,
-            },
-          },
-          hsts: isRemote(),
-        })
-      );
+    (4) Go to Merchant Tools > Site Preferences > Custom Site Preference Groups, Click into group <Bolt Payment Setting - Managed Checkout> and add/update the bolt related configurations.
 
-    ```
-11. To use Managed Runtime to deploy and monitor your PWA Kit storefront
+9. Configure OCAPI:
 
-    Prerequisites
-    - You must have the Managed Runtime User role in Account Manager
-    - You must belong to a partner or customer Organization in the Runtime Admin tool
+    (1) Navigate to Administration > Site Development > Open Commerce API Settings.
+    (2) Navigate to `metadata/ocapi` folder.
+    (3) Copy the contents of `OCAPIshop.json` within Shop Type > Open Commerce API Settings.
+    (4) Replace `<<client_id>>` with your client_id.
+    (5) Click `Save`.
+    (6) Copy the content of `OCAPIdata.json` within Data Type > Open Commerce API Settings.
+    (7) Select "Global (organization-wide)" from the Context Selection dropdown.
+    (8) Replace `<<client_id>>` with your client_id.
+    (9) Click `Save`.
 
-    (1) [Log in to the Managed Runtime](https://quip.com/xul7AKPoTyHv#temp:C:IRb65d6439c23754dfa8262c102f)
+10. Add SFRA cartridge to your code base:
 
-    (2) [Create An Environment in Managed Runtime](https://quip.com/xul7AKPoTyHv#temp:C:IRbe60f236bbb7944528d83eb095)
-    
-    (3) [Push and Deploy a Bundle](https://quip.com/xul7AKPoTyHv)
+    (1) Add cartridge `cartridges/int_bolt_pwa` to your project and upload it to the SFCC instance. 
+    (2) In SFCC Business Manager, Go to Administration > Sites > Manage Sites, select the site, click on `Setting` Tab, add `int_bolt_pwa` at the beginning of the site path field with separator `:`.

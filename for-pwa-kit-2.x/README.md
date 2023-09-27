@@ -9,7 +9,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 
 1. Clone this repository to your local, and copy the folder `for-pwa-kit-2.x/bolt` to `your_project_path/app/components`
 
-2. Update the properties of `engines` in the bolt_pwa_kit/package.json 
+2. Make sure the properties of `engines` in the `your_project_path/package.json` use correct node version
 
     ```sh
     "engines": {
@@ -20,15 +20,13 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 
 3. Set Up API Access
 
-    (1) Follow [this guide](https://developer.salesforce.com/docs/commerce/commerce-api/guide/authorization-for-shopper-apis.html#set-up-user-roles-and-filters) to Set Up User Roles and Filters
-
-    (2) Make sure your SLAS Client have the following settings in the `Scopes` field 
+    (1) Make sure your SLAS Client have the following settings in the `Scopes` field 
 
     ```sh
     sfcc.shopper-myaccount.baskets sfcc.shopper-discovery-search sfcc.shopper-myaccount.addresses sfcc.shopper-products sfcc.shopper-myaccount.rw sfcc.shopper-myaccount.paymentinstruments sfcc.custom_objects sfcc.shopper-customers.login sfcc.shopper-myaccount.orders sfcc.shopper-baskets-orders sfcc.shopper-customers.register sfcc.shopper-productlists sfcc.shopper-myaccount.addresses.rw sfcc.shopper-myaccount.productlists.rw sfcc.shopper-promotions sfcc.session_bridge sfcc.shopper-baskets-orders.rw sfcc.shopper-myaccount.paymentinstruments.rw sfcc.shopper-gift-certificates sfcc.shopper-custom_objects sfcc.shopper-product-search sfcc.shopper-myaccount.productlists sfcc.shopper-categories sfcc.shopper-myaccount
     ```
 
-    (3) Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/setting-up-api-access.html#update-open-commerce-api-settings) to Update Open Commerce API Settings
+    (2) Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/setting-up-api-access.html#update-open-commerce-api-settings) to Update Open Commerce API Settings
 
 4. Complete the configuration files
 
@@ -82,7 +80,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
       );
     ```
     
-5. Run following command if needed:
+5. Run following command:
 
     ```sh
     npm install
