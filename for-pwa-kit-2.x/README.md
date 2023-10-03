@@ -9,32 +9,17 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 
 1. Clone this repository to your local, and copy the folder `for-pwa-kit-2.x/bolt` to `your_project_path/app/components`
 
-2. Make sure the properties of `engines` in the `your_project_path/package.json` use correct node version
+2. Update API Access
+
+    Add these values to the `Scopes` field of your SLAS Client 
 
     ```sh
-    "engines": {
-        "node": "^18.0.0",
-        "npm": "^9.0.0"
-     },
+    sfcc.custom_objects sfcc.session_bridge sfcc.shopper-custom_objects
     ```
 
-3. Set Up API Access
+3. Complete the configuration files
 
-    (1) Make sure your SLAS Client have the following settings in the `Scopes` field 
-
-    ```sh
-    sfcc.shopper-myaccount.baskets sfcc.shopper-discovery-search sfcc.shopper-myaccount.addresses sfcc.shopper-products sfcc.shopper-myaccount.rw sfcc.shopper-myaccount.paymentinstruments sfcc.custom_objects sfcc.shopper-customers.login sfcc.shopper-myaccount.orders sfcc.shopper-baskets-orders sfcc.shopper-customers.register sfcc.shopper-productlists sfcc.shopper-myaccount.addresses.rw sfcc.shopper-myaccount.productlists.rw sfcc.shopper-promotions sfcc.session_bridge sfcc.shopper-baskets-orders.rw sfcc.shopper-myaccount.paymentinstruments.rw sfcc.shopper-gift-certificates sfcc.shopper-custom_objects sfcc.shopper-product-search sfcc.shopper-myaccount.productlists sfcc.shopper-categories sfcc.shopper-myaccount
-    ```
-
-    (2) Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/setting-up-api-access.html#update-open-commerce-api-settings) to Update Open Commerce API Settings
-
-4. Complete the configuration files
-
-    When a PWA Kit project is created with the Retail React App template, it comes with a single configuration file: `app/config/default.js`. The configuration objects that it exports are set based on the options provided to pwa-kit-create-app, but you can update your configuration at any time. Updates are often necessary after the initial project generation to stay in sync with changes to B2C Commerce instances.
-
-    (1) Follow [this guide](https://developer.salesforce.com/docs/commerce/pwa-kit-managed-runtime/guide/configuration-options.html#api-access) to config API Access
-
-    (2) Update SSR config, locate the file `your_project_path/app/ssr.js` and set HTTP security headers with bolt domain(*.bolt.com and *.bugsnag.com)
+    (1) Update SSR config, locate the file `your_project_path/app/ssr.js` and set HTTP security headers with bolt domain(*.bolt.com and *.bugsnag.com)
 
     ```javascript
       app.use(
@@ -79,15 +64,8 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
         })
       );
     ```
-    
-5. Run following command:
 
-    ```sh
-    npm install
-    npm ci
-    ```
-
-6. Enable the Bolt checkout button on the cart page:
+4. Enable the Bolt checkout button on the cart page:
 
     - For the desktop mode, locate the file `your_project_path/app/pages/cart/index.jsx`
         - Import Bolt component 
@@ -157,7 +135,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
             </Fragment>
             ```
 
-7. Enable the Bolt checkout button on the add-to-cart model of product page:  
+5. Enable the Bolt checkout button on the add-to-cart model of product page:  
 
     - Locate the file `your_project_path/app/hooks/use-add-to-cart-modal.js`     
         - Import Bolt component 
@@ -240,7 +218,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
             </Stack>
             ```
 
-8. Configure backend site setting in Business Manager:
+6. Configure backend site setting in Business Manager:
 
     (1) Go to  Administration > Site Development > Import & Export, upload file `metadata/bolt-meta-import/meta/system-objecttype-extensions.xml` and import it.
 
@@ -250,7 +228,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 
     (4) Go to Merchant Tools > Site Preferences > Custom Site Preference Groups, Click into group <Bolt Payment Setting - Managed Checkout> and add/update the bolt related configurations.
 
-9. Configure OCAPI:
+7. Configure OCAPI:
 
     (1) Navigate to Administration > Site Development > Open Commerce API Settings.
     (2) Navigate to `metadata/ocapi` folder.
@@ -262,7 +240,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
     (8) Replace `<<client_id>>` with your client_id.
     (9) Click `Save`.
 
-10. Add SFRA cartridge to your code base:
+8. Add SFRA cartridge to your code base:
 
     (1) Add cartridge `cartridges/int_bolt_pwa` to your project and upload it to the SFCC instance. 
     (2) In SFCC Business Manager, Go to Administration > Sites > Manage Sites, select the site, click on `Setting` Tab, add `int_bolt_pwa` at the beginning of the site path field with separator `:`.
