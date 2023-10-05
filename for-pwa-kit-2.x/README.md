@@ -70,7 +70,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
     - For the desktop mode, locate the file `your_project_path/app/pages/cart/index.jsx`
         - Import Bolt component 
             ```sh
-            import {BoltCheckout} from '../../components/bolt'
+            import BoltCheckout from '../../components/bolt'
             ```
         - Replace original checkout button with the Bolt checkout button
             from 
@@ -94,7 +94,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
     - For the mobile mode, locate the file `your_project_path/app/pages/cart/partials/cart-cta.jsx`
         - Import Bolt component 
             ```sh
-            import {BoltCheckout} from '../../../components/bolt'
+            import BoltCheckout from '../../../components/bolt'
             ```
         - Replace original checkout button with the Bolt checkout button
             from 
@@ -140,7 +140,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
     - Locate the file `your_project_path/app/hooks/use-add-to-cart-modal.js`     
         - Import Bolt component 
             ```sh
-            import { BoltCheckoutPDP } from "../components/bolt";
+            import BoltCheckout from "../components/bolt";
             ```
         - For the desktop mode, find the element `ModalBody` and replace original checkout button with the Bolt checkout button within its content
             from 
@@ -177,7 +177,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
                   })}
                 </Button>
     
-                <BoltCheckoutPDP pos="normal" />
+                <BoltCheckout pos="normal" />
               </Stack>
             ```
         - For the mobile mode, find the element `ModalFooter` and replace original checkout button with the Bolt checkout button within its content
@@ -214,7 +214,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
                     id: "add_to_cart_modal.link.view_cart",
                   })}
                 </Button>
-                <BoltCheckoutPDP pos="mobile" />
+                <BoltCheckout pos="mobile" />
             </Stack>
             ```
 

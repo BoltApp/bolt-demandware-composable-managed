@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
+import PropTypes from 'prop-types'
 import useNavigation from "../../hooks/use-navigation";
 import { useCommerceAPI, BasketContext } from "../../commerce-api/contexts";
 import useCustomer from "../../commerce-api/hooks/useCustomer";
 import useBoltCart from "./use-bolt-cart";
 import useBasket from "../../commerce-api/hooks/useBasket";
 
-export const BoltButtonPDP = (props) => {
-  const { boltConfig, pos, ...rest } = props;
-
+const BoltButtonPDP = ({boltConfig, pos}) => {
   const api = useCommerceAPI();
   const boltCart = useBoltCart();
   const customer = useCustomer();
@@ -18,7 +17,7 @@ export const BoltButtonPDP = (props) => {
   const basketHook = useBasket();
   const boltButtonClass = pos == "mobile" ? "flexible" : "large-width";
 
-  const setSfccData = async (orderNo) => {
+  const closeModal = async (orderNo) => {
     try {
       let order = await customer.getOrder(orderNo);
       return order;
@@ -78,7 +77,8 @@ export const BoltButtonPDP = (props) => {
         },
         success: function (transaction, callback) {
           // This function is called when the Bolt checkout transaction is successful.
-          setSfccData(transaction.merchant_order_number)
+          // sfccData = transaction;
+          closeModal(transaction.merchant_order_number)
             .then((result) => {
               sfccData = result;
               callback();
@@ -88,7 +88,8 @@ export const BoltButtonPDP = (props) => {
             });
         },
       };
-
+      // var result = await boltCart.getCartSession();
+      // if (result?.hints) {
       if (
         basket.basketId &&
         basket.shipments.length > 0 &&
@@ -165,3 +166,12 @@ export const BoltButtonPDP = (props) => {
     </>
   );
 };
+
+BoltButtonPDP.displayName = 'BoltButtonPDP'
+
+BoltButtonPDP.propTypes = {
+    boltConfig: PropTypes.object,
+    pos: PropTypes.string
+}
+
+export default BoltButtonPDP
