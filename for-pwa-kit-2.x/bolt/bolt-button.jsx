@@ -16,7 +16,7 @@ const BoltButton = ({boltConfig}) => {
   const { basket, setBasket: _setBasket } = useContext(BasketContext);
   const basketHook = useBasket();
 
-  const closeModal = async (orderNo) => {
+  const setSfccData = async (orderNo) => {
     try {
       let order = await customer.getOrder(orderNo);
       return order;
@@ -63,8 +63,7 @@ const BoltButton = ({boltConfig}) => {
         },
         success: function (transaction, callback) {
           // This function is called when the Bolt checkout transaction is successful.
-          // sfccData = transaction;
-          closeModal(transaction.merchant_order_number)
+          setSfccData(transaction.merchant_order_number)
             .then((result) => {
               sfccData = result;
               callback();
@@ -74,8 +73,7 @@ const BoltButton = ({boltConfig}) => {
             });
         },
       };
-      // var result = await boltCart.getCartSession();
-      // if (result?.hints) {
+
       if (
         basket.basketId &&
         basket.shipments.length > 0 &&

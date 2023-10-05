@@ -17,7 +17,7 @@ const BoltButtonPDP = ({boltConfig, pos}) => {
   const basketHook = useBasket();
   const boltButtonClass = pos == "mobile" ? "flexible" : "large-width";
 
-  const closeModal = async (orderNo) => {
+  const setSfccData = async (orderNo) => {
     try {
       let order = await customer.getOrder(orderNo);
       return order;
@@ -77,8 +77,7 @@ const BoltButtonPDP = ({boltConfig, pos}) => {
         },
         success: function (transaction, callback) {
           // This function is called when the Bolt checkout transaction is successful.
-          // sfccData = transaction;
-          closeModal(transaction.merchant_order_number)
+          setSfccData(transaction.merchant_order_number)
             .then((result) => {
               sfccData = result;
               callback();
@@ -88,8 +87,7 @@ const BoltButtonPDP = ({boltConfig, pos}) => {
             });
         },
       };
-      // var result = await boltCart.getCartSession();
-      // if (result?.hints) {
+
       if (
         basket.basketId &&
         basket.shipments.length > 0 &&
