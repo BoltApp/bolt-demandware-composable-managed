@@ -1,7 +1,7 @@
 export type BoltHeaderScriptTags = {
-    id: string
-    publishableKey: string
-    src: string
-}
+  id: string;
+  publishableKey: string;
+  src: string;
+};
 
-const defaultTags: BoltHeaderScriptTags[] = []
+export const defaultTags: BoltHeaderScriptTags[] = [];

@@ -5,7 +5,7 @@ import BoltButton from './bolt-button'
 import BoltButtonPDP from "./bolt-button-pdp";
 import ControllerBolt from './controller-bolt'
 
-const BoltCheckout = ({boltType='cart', pos = 'normal'}) => {
+const BoltCheckout = ({api, navigate, customer, basket, basketContext, boltType='cart', pos = 'normal'}) => {
     const controller = new ControllerBolt()
     const [boltConfig, setBoltConfig] = useState(null)
 
@@ -29,10 +29,10 @@ const BoltCheckout = ({boltType='cart', pos = 'normal'}) => {
                 boltConfig={boltConfig}
             />}
             {boltConfig && boltConfig?.boltMultiPublishableKey && boltType == 'cart' && <BoltButton
-                boltConfig={boltConfig}
+                api={api} navigate={navigate} customer={customer} basket={basket} basketContext={basketContext} boltConfig={boltConfig}
             />}
             {boltConfig && boltConfig?.boltMultiPublishableKey && boltType == 'pdp' && <BoltButtonPDP
-                boltConfig={boltConfig} pos={pos}
+                api={api} navigate={navigate} customer={customer} basket={basket} basketContext={basketContext} boltConfig={boltConfig} pos={pos}
             />}
         </>
     )
@@ -41,6 +41,11 @@ const BoltCheckout = ({boltType='cart', pos = 'normal'}) => {
 BoltCheckout.displayName = 'BoltCheckout'
 
 BoltCheckout.propTypes = {
+    api: PropTypes.object,
+    navigate: PropTypes.func,
+    customer: PropTypes.object,
+    basket: PropTypes.object,
+    basketContext: PropTypes.object,
     boltType: PropTypes.string,
     pos: PropTypes.string
 }

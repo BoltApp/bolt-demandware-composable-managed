@@ -1,20 +1,12 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import PropTypes from 'prop-types'
-import useNavigation from "../../hooks/use-navigation";
-import { useCommerceAPI, BasketContext } from "../../commerce-api/contexts";
-import useCustomer from "../../commerce-api/hooks/useCustomer";
 import useBoltCart from "./use-bolt-cart";
-import useBasket from "../../commerce-api/hooks/useBasket";
 
-const BoltButtonPDP = ({boltConfig, pos}) => {
-  const api = useCommerceAPI();
+const BoltButtonPDP = ({api, navigate, customer, basket, basketContext, boltConfig, pos, ...props}) => {
+  const { setBasket: _setBasket } = useContext(basketContext);
   const boltCart = useBoltCart();
-  const customer = useCustomer();
-  const navigate = useNavigation();
   const boltButtonRef = useRef(null);
   const [boltButtonApp, setBoltButtonApp] = useState(false);
-  const { basket, setBasket: _setBasket } = useContext(BasketContext);
-  const basketHook = useBasket();
   const boltButtonClass = pos == "mobile" ? "flexible" : "large-width";
 
   const setSfccData = async (orderNo) => {
@@ -95,7 +87,7 @@ const BoltButtonPDP = ({boltConfig, pos}) => {
       ) {
         var result = await boltCart.getDefaultShipmethod();
         if (result?.shipid) {
-          await basketHook.setShippingMethod(result.shipid);
+          await basket.setShippingMethod(result.shipid);
         }
       }
 
@@ -168,7 +160,12 @@ const BoltButtonPDP = ({boltConfig, pos}) => {
 BoltButtonPDP.displayName = 'BoltButtonPDP'
 
 BoltButtonPDP.propTypes = {
-    boltConfig: PropTypes.object,
+    api: PropTypes.object,
+    navigate: PropTypes.func,
+    customer: PropTypes.object,
+    basket: PropTypes.object,
+    basketContext: PropTypes.object,
+    boltType: PropTypes.string,
     pos: PropTypes.string
 }
 

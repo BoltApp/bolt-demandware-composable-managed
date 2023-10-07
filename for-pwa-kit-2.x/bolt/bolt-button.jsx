@@ -1,20 +1,12 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import PropTypes from 'prop-types'
-import useNavigation from "../../hooks/use-navigation";
-import { useCommerceAPI, BasketContext } from "../../commerce-api/contexts";
-import useCustomer from "../../commerce-api/hooks/useCustomer";
 import useBoltCart from "./use-bolt-cart";
-import useBasket from "../../commerce-api/hooks/useBasket";
 
-const BoltButton = ({boltConfig}) => {
-  const api = useCommerceAPI();
+const BoltButton = ({api, navigate, customer, basket, basketContext, boltConfig, ...props}) => {
   const boltCart = useBoltCart();
-  const customer = useCustomer();
-  const navigate = useNavigation();
   const boltButtonRef = useRef(null);
   const [boltButtonApp, setBoltButtonApp] = useState(false);
-  const { basket, setBasket: _setBasket } = useContext(BasketContext);
-  const basketHook = useBasket();
+  const { setBasket: _setBasket } = useContext(basketContext);
 
   const setSfccData = async (orderNo) => {
     try {
@@ -81,7 +73,7 @@ const BoltButton = ({boltConfig}) => {
       ) {
         var result = await boltCart.getDefaultShipmethod();
         if (result?.shipid) {
-          await basketHook.setShippingMethod(result.shipid);
+          await basket.setShippingMethod(result.shipid);
         }
       }
 
@@ -154,7 +146,12 @@ const BoltButton = ({boltConfig}) => {
 BoltButton.displayName = 'BoltButton'
 
 BoltButton.propTypes = {
-  boltConfig: PropTypes.object,
+    api: PropTypes.object,
+    navigate: PropTypes.func,
+    customer: PropTypes.object,
+    basket: PropTypes.object,
+    basketContext: PropTypes.object,
+    boltType: PropTypes.string
 }
 
 export default BoltButton
