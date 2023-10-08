@@ -1,7 +1,7 @@
 {
-  "name": "@dumega/bolt2.x",
-  "version": "1.0.4",
-  "description": "pwa bolt2.x",
+  "name": "@boltpay/bolt-pwa-kit2.x",
+  "version": "1.0.0",
+  "description": "Bolt component for pwa kit 2.x",
   "main": "dist/index.cjs.js",
   "scripts": {
     "build": "rollup -c"
