@@ -9,7 +9,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 
 1. Install Bolt component package, run the command below from `your_project_path`
     ```sh
-    npm install @boltpay/bolt-pwa-kit3.x
+    npm install @boltpay/bolt-pwa-kit2.x
     ```
 
 2. Update API Access
@@ -73,7 +73,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
     - For the desktop mode, locate the file `your_project_path/app/pages/cart/index.jsx`
         - Import Bolt component and necessary modules
             ```javascript
-            import BoltCheckout from "@dumega/bolt2.x/dist/index";
+            import BoltCheckout from "@boltpay/bolt-pwa-kit2.x/dist/index";
             import { useCommerceAPI, BasketContext } from "../../commerce-api/contexts";
             ```
             
@@ -85,7 +85,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
             
         - Replace original checkout button with the Bolt checkout button
             from 
-            ```sh
+            ```html
             <Stack spacing={4}>
                 <OrderSummary showPromoCodeForm={true} isEstimate={true} />
                 <Box display={{base: 'none', lg: 'block'}}>
@@ -94,7 +94,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
             </Stack>
             ```
             to
-            ```sh
+            ```html
             <Stack spacing={4}>
                 <OrderSummary showPromoCodeForm={true} isEstimate={true} />
                 <Box display={{base: 'none', lg: 'block'}}>
@@ -113,15 +113,25 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
     - For the mobile mode, locate the file `your_project_path/app/pages/cart/partials/cart-cta.jsx`
         - Import Bolt component and necessary modules
             ```sh
-            import BoltCheckout from "@dumega/bolt2.x/dist/index";
+            import BoltCheckout from "@boltpay/bolt-pwa-kit2.x/dist/index";
             import useBasket from '../../../commerce-api/hooks/useBasket'
             import useCustomer from '../../../commerce-api/hooks/useCustomer'
             import useNavigation from '../../../hooks/use-navigation'
             import { useCommerceAPI, BasketContext } from "../../../commerce-api/contexts";
             ```
+            
+        - Define constant variables within `const CartCta`
+            ```javascript
+            const CartCta = () => {
+                const basket = useBasket()
+                const api = useCommerceAPI()
+                const customer = useCustomer()
+                const navigate = useNavigation()
+            ```
+            
         - Replace original checkout button with the Bolt checkout button
             from 
-            ```sh
+            ```html
             <Fragment>
                 <Button
                     as={Link}
@@ -146,7 +156,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
             </Fragment>
             ```
             to
-            ```sh
+            ```html
             <Fragment>
                 <BoltCheckout
                     api={api}
@@ -170,14 +180,23 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
     - Locate the file `your_project_path/app/hooks/use-add-to-cart-modal.js`     
         - Import Bolt component and necessary modules
             ```sh
-            import BoltCheckout from "@dumega/bolt2.x/dist/index";
+            import BoltCheckout from "@boltpay/bolt-pwa-kit2.x/dist/index";
             import useCustomer from "../commerce-api/hooks/useCustomer";
             import { useCommerceAPI, BasketContext } from "../commerce-api/contexts";
             import useNavigation from "./use-navigation";
             ```
+            
+        - Define constant variables within `const AddToCartModal`
+            ```javascript
+            export const AddToCartModal = () => {
+                const api = useCommerceAPI();
+                const navigate = useNavigation();
+                const customer = useCustomer();
+            ```
+            
         - For the desktop mode, find the element `ModalBody` and replace original checkout button with the Bolt checkout button within its content
             from 
-            ```sh
+            ```html
             <Stack spacing="4">
                 <Button as={Link} to="/cart" width="100%" variant="solid">
                     {intl.formatMessage({
@@ -201,7 +220,7 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
             </Stack>
             ```
             to
-            ```sh
+            ```html
             <Stack spacing="4">
                 <Button as={Link} to="/cart" width="100%" variant="solid">
                   {intl.formatMessage({
