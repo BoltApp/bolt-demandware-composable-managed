@@ -7,7 +7,10 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 
 ## Get Started
 
-1. Clone this repository to your local, and copy the folder `for-pwa-kit-2.x/bolt` to `your_project_path/app/components`
+1. Install Bolt component package, run the command below from `your_project_path`
+    ```sh
+    npm install @boltpay/bolt-pwa-kit3.x
+    ```
 
 2. Update API Access
 
@@ -68,21 +71,20 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 4. Enable the Bolt checkout button on the cart page:
 
     - For the desktop mode, locate the file `your_project_path/app/pages/cart/index.jsx`
-        - Import Bolt component 
-            ```sh
-            import BoltCheckout from '../../components/bolt'
+        - Import Bolt component and necessary modules
+            ```javascript
+            import BoltCheckout from "@dumega/bolt2.x/dist/index";
+            import { useCommerceAPI, BasketContext } from "../../commerce-api/contexts";
             ```
+            
+        - Define constant variables within `const Cart`
+            ```javascript
+            const Cart = () => {
+                const api = useCommerceAPI();
+            ```
+            
         - Replace original checkout button with the Bolt checkout button
             from 
-            ```sh
-            <Stack spacing={4}>
-                <OrderSummary showPromoCodeForm={true} isEstimate={true} />
-                <Box display={{base: 'none', lg: 'block'}}>
-                    <BoltCheckout />
-                </Box>
-            </Stack>
-            ```
-            to
             ```sh
             <Stack spacing={4}>
                 <OrderSummary showPromoCodeForm={true} isEstimate={true} />
@@ -91,10 +93,31 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
                 </Box>
             </Stack>
             ```
-    - For the mobile mode, locate the file `your_project_path/app/pages/cart/partials/cart-cta.jsx`
-        - Import Bolt component 
+            to
             ```sh
-            import BoltCheckout from '../../../components/bolt'
+            <Stack spacing={4}>
+                <OrderSummary showPromoCodeForm={true} isEstimate={true} />
+                <Box display={{base: 'none', lg: 'block'}}>
+                    <BoltCheckout
+                        api={api}
+                        navigate={navigate}
+                        customer={customer}
+                        basket={basket}
+                        basketContext={BasketContext}
+                        boltType="cart"
+                        />
+                </Box>
+            </Stack>
+            ```
+            
+    - For the mobile mode, locate the file `your_project_path/app/pages/cart/partials/cart-cta.jsx`
+        - Import Bolt component and necessary modules
+            ```sh
+            import BoltCheckout from "@dumega/bolt2.x/dist/index";
+            import useBasket from '../../../commerce-api/hooks/useBasket'
+            import useCustomer from '../../../commerce-api/hooks/useCustomer'
+            import useNavigation from '../../../hooks/use-navigation'
+            import { useCommerceAPI, BasketContext } from "../../../commerce-api/contexts";
             ```
         - Replace original checkout button with the Bolt checkout button
             from 
@@ -125,7 +148,14 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
             to
             ```sh
             <Fragment>
-                <BoltCheckout />
+                <BoltCheckout
+                    api={api}
+                    navigate={navigate}
+                    customer={customer}
+                    basket={basket}
+                    basketContext={BasketContext}
+                    boltType="cart"
+                    />
                 <Flex justify={'center'}>
                     <VisaIcon height={8} width={10} mr={2} />
                     <MastercardIcon height={8} width={10} mr={2} />
@@ -138,9 +168,12 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
 5. Enable the Bolt checkout button on the add-to-cart model of product page:  
 
     - Locate the file `your_project_path/app/hooks/use-add-to-cart-modal.js`     
-        - Import Bolt component 
+        - Import Bolt component and necessary modules
             ```sh
-            import BoltCheckout from "../components/bolt";
+            import BoltCheckout from "@dumega/bolt2.x/dist/index";
+            import useCustomer from "../commerce-api/hooks/useCustomer";
+            import { useCommerceAPI, BasketContext } from "../commerce-api/contexts";
+            import useNavigation from "./use-navigation";
             ```
         - For the desktop mode, find the element `ModalBody` and replace original checkout button with the Bolt checkout button within its content
             from 
@@ -177,7 +210,15 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
                   })}
                 </Button>
     
-                <BoltCheckout pos="normal" />
+                <BoltCheckout
+                  api={api}
+                  navigate={navigate}
+                  customer={customer}
+                  basket={basket}
+                  basketContext={BasketContext}
+                  boltType="pdp"
+                  pos="normal"
+                />
               </Stack>
             ```
         - For the mobile mode, find the element `ModalFooter` and replace original checkout button with the Bolt checkout button within its content
@@ -214,7 +255,15 @@ Currently Managed Runtime environment only supports Node.js 18.x, for more infor
                     id: "add_to_cart_modal.link.view_cart",
                   })}
                 </Button>
-                <BoltCheckout pos="mobile" />
+                <BoltCheckout
+                  api={api}
+                  navigate={navigate}
+                  customer={customer}
+                  basket={basket}
+                  basketContext={BasketContext}
+                  boltType="pdp"
+                  pos="mobile"
+                />
             </Stack>
             ```
 
