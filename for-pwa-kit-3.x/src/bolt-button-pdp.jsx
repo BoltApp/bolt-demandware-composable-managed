@@ -1,13 +1,54 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef, useState, useContext} from 'react'
 import PropTypes from 'prop-types'
-import useNavigation from '@salesforce/retail-react-app/app/hooks/use-navigation'
-import {useCurrentBasket} from '@salesforce/retail-react-app/app/hooks/use-current-basket'
+
+
+import useBoltCart from "./use-bolt-cart";
 import {useAccessToken, useShopperBasketsMutation, useShippingMethodsForShipment} from '@salesforce/commerce-sdk-react'
 
-const BoltButtonPDP = ({boltConfig, pos}) => {
-    const {data: basket} = useCurrentBasket()
+/*
+
+<div>
+          <div
+            data-tid="instant-bolt-checkout-button"
+            className="bolt-checkout-button"
+            ref={boltButtonRef}
+          >
+            <script
+              id="bolt-connect"
+              type="text/javascript"
+              src="https://connect.ning.dev.bolt.me"
+              data-publishable-key={boltConfig.boltMultiPublishableKey}
+            ></script>
+          </div>
+        </div>
+
+        <div>
+          <div className="bolt-cart-button" data-cart-total="" data-tid="instant-bolt-checkout-button" ref={boltButtonRef}>
+              <object data={boltConfig.boltCdnUrl + "/v1/checkout_button?publishable_key=" + boltConfig.boltMultiPublishableKey}></object>
+          </div>
+        </div>
+
+        <div>
+                    <div
+                        className={'bolt-checkout-button with-cards ' + boltButtonClass}
+                        data-cart-total=""
+                        data-tid="instant-bolt-checkout-button"
+                        ref={boltButtonRef}
+                    >
+                        <object
+                            data={
+                                boltConfig.boltCdnUrl +
+                                '/v1/checkout_button?publishable_key=' +
+                                boltConfig.boltMultiPublishableKey
+                            }
+                        ></object>
+                    </div>
+                </div>
+
+*/
+const BoltButtonPDP = ({basket, navigate, boltConfig, pos}) => {
     const {getTokenWhenReady} = useAccessToken()
-    const navigate = useNavigation()
+    
     const boltButtonRef = useRef(null)
     const [boltButtonApp, setBoltButtonApp] = useState(false)
     const boltButtonClass = pos == 'mobile' ? 'flexible' : 'large-width'
@@ -53,6 +94,7 @@ const BoltButtonPDP = ({boltConfig, pos}) => {
     useEffect(() => {
         let intervalCount = 0
         async function initBoltButton() {
+            console.log('start initBoltButton')
             var sfccData
             let callbacks = {
                 close: function () {
@@ -82,6 +124,9 @@ const BoltButtonPDP = ({boltConfig, pos}) => {
                         .catch((error) => {
                         // if you have an error
                         });
+                    //await timeout(1000); //for 1 sec delay
+                    
+                    //document.activeElement.blur()
                 },
 
                 // eslint-disable-next-line no-unused-vars
@@ -124,7 +169,10 @@ const BoltButtonPDP = ({boltConfig, pos}) => {
                 window.BoltCheckout.configure(cart, hints, callbacks)
             } catch (error) {
                 setBoltButtonApp(false)
+                console.log('Bolt Button configured error')
             }
+            console.log('Bolt Button configured')
+            // }
         }
         const intervalId = setInterval(() => {
             if (boltButtonApp) {
@@ -142,6 +190,7 @@ const BoltButtonPDP = ({boltConfig, pos}) => {
                 window?.BoltCheckout
             ) {
                 setBoltButtonApp(true)
+                console.log('Bolt DOM fully loaded and parsed')
                 initBoltButton()
                 clearInterval(intervalId)
             }
@@ -179,7 +228,9 @@ const BoltButtonPDP = ({boltConfig, pos}) => {
 BoltButtonPDP.displayName = 'BoltButtonPDP'
 
 BoltButtonPDP.propTypes = {
-    boltConfig: PropTypes.object,
+    basket: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
+    boltType: PropTypes.string,
     pos: PropTypes.string
 }
 

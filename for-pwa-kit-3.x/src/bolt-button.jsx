@@ -1,19 +1,44 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import PropTypes from 'prop-types'
-import useNavigation from '@salesforce/retail-react-app/app/hooks/use-navigation'
-import {useCurrentBasket} from '@salesforce/retail-react-app/app/hooks/use-current-basket'
+//import useNavigation from '@salesforce/retail-react-app/app/hooks/use-navigation'
+//import {useCurrentBasket} from '@salesforce/retail-react-app/app/hooks/use-current-basket'
 import {useAccessToken} from '@salesforce/commerce-sdk-react'
+/*
 
-const BoltButton = ({boltConfig}) => {
-  const {data: basket} = useCurrentBasket()
+<div>
+          <div
+            data-tid="instant-bolt-checkout-button"
+            className="bolt-checkout-button"
+            ref={boltButtonRef}
+          >
+            <script
+              id="bolt-connect"
+              type="text/javascript"
+              src="https://connect.ning.dev.bolt.me"
+              data-publishable-key={boltConfig.boltMultiPublishableKey}
+            ></script>
+          </div>
+        </div>
+
+        <div>
+          <div className="bolt-cart-button" data-cart-total="" data-tid="instant-bolt-checkout-button" ref={boltButtonRef}>
+              <object data={boltConfig.boltCdnUrl + "/v1/checkout_button?publishable_key=" + boltConfig.boltMultiPublishableKey}></object>
+          </div>
+        </div>
+
+*/
+const BoltButton = ({basket, navigate, boltConfig}) => {
+
   const {getTokenWhenReady} = useAccessToken()
-  const navigate = useNavigation();
+
   const boltButtonRef = useRef(null);
   const [boltButtonApp, setBoltButtonApp] = useState(false);
 
   useEffect(() => {
+    console.log("render BoltButton1");
     let intervalCount = 0;
     async function initBoltButton() {
+      console.log("start initBoltButton");
       var sfccData;
       let callbacks = {
         close: function () {
@@ -49,7 +74,8 @@ const BoltButton = ({boltConfig}) => {
           callback();
         },
       };
-
+      // var result = await boltCart.getCartSession();
+      // if (result?.hints) {
       const cart = {
         id: basket.basketId,
       };
@@ -59,19 +85,27 @@ const BoltButton = ({boltConfig}) => {
           SFCCJWT: 'Bearer ' + jwtToken,
         },
       };
-
+      // const hints = {};
+      // result.hints = {};
+      // console.log(JSON.stringify(hints));
       try {
         window.BoltCheckout.configure(cart, hints, callbacks);
       } catch (error) {
         setBoltButtonApp(false);
+        console.log("Bolt Button configured error");
       }
+
+      console.log("Bolt Button configured");
+      // }
     }
     const intervalId = setInterval(() => {
+      console.log("useEffect setInterval");
       if (boltButtonApp) {
         clearInterval(intervalId);
       }
       if (intervalCount > 100) {
         // to cancel the interval after 10 seconds
+        console.log("useEffect setInterval - not setup");
         clearInterval(intervalId);
       } else if (
         !boltButtonApp &&
@@ -82,6 +116,7 @@ const BoltButton = ({boltConfig}) => {
         window?.BoltCheckout
       ) {
         setBoltButtonApp(true);
+        console.log("Bolt DOM fully loaded and parsed");
         initBoltButton();
         clearInterval(intervalId);
       }

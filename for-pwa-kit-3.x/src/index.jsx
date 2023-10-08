@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import BoltHeader from '@salesforce/retail-react-app/app/components/bolt/bolt-header'
-import BoltButton from '@salesforce/retail-react-app/app/components/bolt/bolt-button'
-import ControllerBolt from '@salesforce/retail-react-app/app/components/bolt/controller-bolt'
-import BoltButtonPDP from "@salesforce/retail-react-app/app/components/bolt/bolt-button-pdp";
+import BoltHeader from './bolt-header'
+import BoltButton from './bolt-button'
+import ControllerBolt from './controller-bolt'
+import BoltButtonPDP from "./bolt-button-pdp";
 
-const BoltCheckout = ({boltType='cart', pos = 'normal'}) => {
+const BoltCheckout = ({basket, navigate, boltType='cart', pos = 'normal'}) => {
     const controller = new ControllerBolt()
     const [boltConfig, setBoltConfig] = useState(null)
 
@@ -16,8 +16,10 @@ const BoltCheckout = ({boltType='cart', pos = 'normal'}) => {
 
         async function load() {
             const boltConfigData = await controller.getBoltConfig()
+            console.log('await boltConfigData')
             if (boltConfigData?.config) {
                 setBoltConfig(boltConfigData.config)
+                console.log('set boltConfigData')
             }
             if (!active) { return }            
         }
@@ -29,10 +31,10 @@ const BoltCheckout = ({boltType='cart', pos = 'normal'}) => {
                 boltConfig={boltConfig}
             />}
             {boltConfig && boltConfig?.boltMultiPublishableKey && boltType == 'cart' && <BoltButton
-                boltConfig={boltConfig}
+                basket={basket} navigate={navigate} boltConfig={boltConfig}
             />}
             {boltConfig && boltConfig?.boltMultiPublishableKey && boltType == 'pdp' && <BoltButtonPDP
-                boltConfig={boltConfig} pos={pos}
+                basket={basket} navigate={navigate} boltConfig={boltConfig} pos={pos}
             />}
         </>
     )
@@ -41,6 +43,8 @@ const BoltCheckout = ({boltType='cart', pos = 'normal'}) => {
 BoltCheckout.displayName = 'BoltCheckout'
 
 BoltCheckout.propTypes = {
+    basket: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
     boltType: PropTypes.string,
     pos: PropTypes.string
 }

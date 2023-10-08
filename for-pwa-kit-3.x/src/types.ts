@@ -4,4 +4,4 @@ export type BoltHeaderScriptTags = {
     src: string
 }
 
-const defaultTags: BoltHeaderScriptTags[] = []
+export const defaultTags: BoltHeaderScriptTags[] = []
