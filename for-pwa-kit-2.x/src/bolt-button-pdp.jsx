@@ -1,21 +1,13 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import useNavigation from "../../hooks/use-navigation";
-import { useCommerceAPI, BasketContext } from "../../commerce-api/contexts";
-import useCustomer from "../../commerce-api/hooks/useCustomer";
+import PropTypes from 'prop-types'
 import useBoltCart from "./use-bolt-cart";
-import useBasket from "../../commerce-api/hooks/useBasket";
 
-export const BoltButton = (props) => {
-  const { boltConfig, ...rest } = props;
-
-  const api = useCommerceAPI();
+const BoltButtonPDP = ({api, navigate, customer, basket, basketContext, boltConfig, pos, ...props}) => {
+  const { setBasket: _setBasket } = useContext(basketContext);
   const boltCart = useBoltCart();
-  const customer = useCustomer();
-  const navigate = useNavigation();
   const boltButtonRef = useRef(null);
   const [boltButtonApp, setBoltButtonApp] = useState(false);
-  const { basket, setBasket: _setBasket } = useContext(BasketContext);
-  const basketHook = useBasket();
+  const boltButtonClass = pos == "mobile" ? "flexible" : "large-width";
 
   const setSfccData = async (orderNo) => {
     try {
@@ -38,10 +30,23 @@ export const BoltButton = (props) => {
           if (sfccData) {
             setBasket(sfccData);
             navigate("/checkout/confirmation");
+          } else {
+            const boltBtns = document.querySelectorAll(
+              "div.bolt-checkout-button > div"
+            );
+            boltBtns.forEach((boltBtn) => {
+              boltBtn.style.removeProperty("display");
+            });
           }
         },
         onCheckoutStart: function () {
           // This function is called after the checkout form is presented to the user.
+          const boltBtns = document.querySelectorAll(
+            "div.bolt-checkout-button > div"
+          );
+          boltBtns.forEach((boltBtn) => {
+            boltBtn.style.setProperty("display", "none", "important");
+          });
         },
 
         // eslint-disable-next-line no-unused-vars
@@ -82,7 +87,7 @@ export const BoltButton = (props) => {
       ) {
         var result = await boltCart.getDefaultShipmethod();
         if (result?.shipid) {
-          await basketHook.setShippingMethod(result.shipid);
+          await basket.setShippingMethod(result.shipid);
         }
       }
 
@@ -113,7 +118,7 @@ export const BoltButton = (props) => {
         !boltButtonApp &&
         boltButtonRef.current &&
         boltButtonRef.current.contains(
-          document.querySelector("div.bolt-cart-button svg")
+          document.querySelector("div.bolt-checkout-button > div")
         ) &&
         window?.BoltCheckout
       ) {
@@ -133,7 +138,7 @@ export const BoltButton = (props) => {
       {boltConfig && boltConfig?.boltMultiPublishableKey && (
         <div>
           <div
-            className="bolt-cart-button"
+            className={"bolt-checkout-button with-cards " + boltButtonClass}
             data-cart-total=""
             data-tid="instant-bolt-checkout-button"
             ref={boltButtonRef}
@@ -151,3 +156,17 @@ export const BoltButton = (props) => {
     </>
   );
 };
+
+BoltButtonPDP.displayName = 'BoltButtonPDP'
+
+BoltButtonPDP.propTypes = {
+    api: PropTypes.object,
+    navigate: PropTypes.func,
+    customer: PropTypes.object,
+    basket: PropTypes.object,
+    basketContext: PropTypes.object,
+    boltType: PropTypes.string,
+    pos: PropTypes.string
+}
+
+export default BoltButtonPDP
